@@ -22,25 +22,28 @@ function onGetResultsButtonClick(){
 
     console.log ("URL: " + actualUrl);
 
-    fetch(actualUrl)
-    .then(response => {
-        console.log("received a result and beginning to process it")        
-        return response.json();
-    })
-    .then( data => {
-        console.log("all of the data has been recieved and turned into an object now");
-        console.log(data);
+    fetch(actualUrl).then(doWhenResponseBegins);
 
-        for(let meal of data.meals){
-            let p = document.createElement("p");
-            p.innerHTML = meal.strMeal;
-
-            resultsOutput.appendChild(p);
-        }
-    })
-
-    console.log("some other work that happens before fetch finishes");
 
 }
 
+function doWhenResponseBegins(response){
+    response.json().then(processResultDataFromAPI)
+}
 
+function processResultDataFromAPI(data){
+    console.log(data);
+    doStuffWithArrayOfMeals(data.meals)
+}
+
+function doStuffWithArrayOfMeals(meals){
+        for(let meal of meals){
+            doStuffWithMeal(meal);
+        }
+}
+
+function doStuffWithMeal(meal){
+    let p = document.createElement("p");
+    p.innerHTML = meal.strMeal;
+    resultsOutput.appendChild(p);
+}
