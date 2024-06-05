@@ -6,19 +6,31 @@ console.log("mealsincategory");
 //https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood
 const apiBaseUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?c="
 
+let category;
 
 window.onload = function() {
-    const getResultsButton = document.getElementById("getResultsButton");
-    getResultsButton.onclick = onGetResultsButtonClick;
+    let urlParams = new URLSearchParams(location.search);
+
+    if( urlParams.has("category") === true){
+        category = urlParams.get("category");
+        loadCategoryData();
+    }
+
+    console.log(category);
+
+
 };
 
-function onGetResultsButtonClick(){
-    console.log("clicked");
+function loadCategoryData(){
 
-    const categoryInput = document.getElementById("categoryInput");
+  //  const categoryInput = document.getElementById("categoryInput");
+
     const resultsOutput = document.getElementById("resultsOutput");
+    const categoryHeader = document.getElementById("categoryHeader");
 
-    let actualUrl = apiBaseUrl + categoryInput.value;
+    categoryHeader.innerHTML = "Meals in category " + category;
+
+    let actualUrl = apiBaseUrl + category;
 
     console.log ("URL: " + actualUrl);
 
